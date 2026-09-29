@@ -79,7 +79,7 @@ header.scrolled{background:rgba(7,7,7,.94);border-color:var(--line);box-shadow:0
 .category:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 15%,rgba(0,0,0,.88) 100%);z-index:-1}
 .category:hover{transform:translateY(-6px);border-color:rgba(255,106,0,.4);box-shadow:0 22px 50px rgba(0,0,0,.32)}
 .category-content{position:absolute;z-index:2;left:18px;right:18px;bottom:17px}
-.category-content span{font-size:25px}.category-content h3{font-family:Georgia,serif;margin:7px 0 3px;font-size:22px}.category-content p{margin:0;color:#aaa;font-size:11px}
+.category-content span{font-size:25px}.category-mark{display:block;width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 14px rgba(255,106,0,.55);margin-bottom:8px}.category-content h3{font-family:Georgia,serif;margin:7px 0 3px;font-size:22px}.category-content p{margin:0;color:#aaa;font-size:11px}
 
 /* product controls */
 .catalog-top{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:18px}
@@ -158,6 +158,20 @@ footer{border-top:1px solid var(--line);padding:60px 0 28px;background:#050505}.
 }
 
 
+/* ===== ENGAGEMENT LAYER ===== */
+.discovery-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.discovery-btn,.cinema-btn{border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.035);color:#ddd;border-radius:12px;padding:10px 13px;font-size:11px;transition:.25s var(--ease);backdrop-filter:blur(10px)}
+.discovery-btn:hover,.cinema-btn:hover{border-color:rgba(255,106,0,.45);background:rgba(255,106,0,.07);transform:translateY(-2px);color:#fff}
+.discovery-note{font-size:10px;color:#77716b;letter-spacing:.03em}
+.bat{width:30px;height:16px;position:absolute;opacity:0;animation:batFly linear forwards;filter:drop-shadow(0 0 7px rgba(255,106,0,.2))}
+.bat:before{content:"";position:absolute;left:11px;top:3px;width:8px;height:12px;border-radius:50% 50% 42% 42%;background:#171717;border:1px solid rgba(255,255,255,.08);z-index:2}
+.bat:after{content:"";position:absolute;left:0;top:0;width:30px;height:14px;background:linear-gradient(135deg,#171717 0 45%,transparent 46%),linear-gradient(225deg,#171717 0 45%,transparent 46%);clip-path:polygon(0 0,42% 26%,50% 50%,58% 26%,100% 0,87% 100%,61% 65%,50% 100%,39% 65%,13% 100%);opacity:.95}
+.cinematic-mode .spooky-vignette{box-shadow:inset 0 0 230px rgba(0,0,0,.56)}
+.cinematic-mode .spooky-atmosphere{opacity:1}
+.cinematic-mode .hero-media{box-shadow:0 30px 100px rgba(0,0,0,.62),0 0 60px rgba(255,106,0,.08)}
+.cinematic-mode:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9997;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+@media(max-width:650px){.discovery-row{margin-top:14px}.discovery-note{width:100%}.discovery-btn,.cinema-btn{flex:1;min-width:145px}}
+
 /* ===== SPOOKY INTERACTIVE EXPERIENCE ===== */
 .spooky-atmosphere{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden;opacity:.8}
 .spooky-atmosphere:before{content:"";position:absolute;inset:auto -15% -20% -15%;height:42%;background:radial-gradient(ellipse at center,rgba(255,106,0,.055),transparent 68%);filter:blur(35px);animation:mistDrift 14s ease-in-out infinite alternate}
@@ -185,7 +199,7 @@ footer{border-top:1px solid var(--line);padding:60px 0 28px;background:#050505}.
 </head>
 <body>
 <div class="spooky-atmosphere" aria-hidden="true">
-  <span class="bat">🦇</span><span class="bat">🦇</span><span class="bat">🦇</span><span class="bat">🦇</span>
+  <span class="bat"></span><span class="bat"></span><span class="bat"></span><span class="bat"></span>
   <div class="spider-web"><i></i><i></i><i></i><i></i></div>
 </div>
 <div class="spooky-vignette" aria-hidden="true"></div>
@@ -194,7 +208,7 @@ footer{border-top:1px solid var(--line);padding:60px 0 28px;background:#050505}.
 
 <div class="progress" id="progress"></div>
 
-<div class="announcement">🎃 <b>HALLOWEEN 2026</b>&nbsp; · &nbsp;FRETE GRÁTIS ACIMA DE R$ 199&nbsp; · &nbsp;ATÉ 6X NO CARTÃO</div>
+<div class="announcement"><b>HALLOWEEN 2026</b>&nbsp; · &nbsp;FRETE GRÁTIS ACIMA DE R$ 199&nbsp; · &nbsp;ATÉ 6X NO CARTÃO</div>
 
 <header id="header">
   <div class="container nav">
@@ -237,7 +251,7 @@ footer{border-top:1px solid var(--line);padding:60px 0 28px;background:#050505}.
   <div class="section-head"><div><div class="eyebrow">Escolha a atmosfera</div><h2 class="section-title">Explore por categoria.</h2></div><p class="section-desc">Comece pelo que você precisa e monte o resto do seu Halloween a partir daí.</p></div>
   <div class="categories">
     <a class="category reveal" href="#colecao" onclick="setFilter('fantasia')" style="background-image:url('https://images.pexels.com/photos/5600005/pexels-photo-5600005.jpeg?cs=srgb&dl=pexels-leish-5600005.jpg&fm=jpg')"><div class="category-content"><span>🧙</span><h3>Fantasias</h3><p>Do clássico ao diferente.</p></div></a>
-    <a class="category reveal" href="#colecao" onclick="setFilter('decoracao')" style="background-image:url('https://images.pexels.com/photos/10113123/pexels-photo-10113123.jpeg?auto=compress&cs=tinysrgb&w=1200')"><div class="category-content"><span>🎃</span><h3>Decoração</h3><p>Crie o cenário.</p></div></a>
+    <a class="category reveal" href="#colecao" onclick="setFilter('decoracao')" style="background-image:url('https://images.pexels.com/photos/10113123/pexels-photo-10113123.jpeg?auto=compress&cs=tinysrgb&w=1200')"><div class="category-content"><span class="category-mark"></span><h3>Decoração</h3><p>Crie o cenário.</p></div></a>
     <a class="category reveal" href="#colecao" onclick="setFilter('acessorio')" style="background-image:url('https://images.pexels.com/photos/9740338/pexels-photo-9740338.jpeg?auto=compress&cs=tinysrgb&w=1200')"><div class="category-content"><span>🕸️</span><h3>Acessórios</h3><p>O detalhe final.</p></div></a>
     <a class="category reveal" href="#colecao" onclick="setFilter('mascara')" style="background-image:url('https://images.pexels.com/photos/12725754/pexels-photo-12725754.jpeg?auto=compress&cs=tinysrgb&w=1200')"><div class="category-content"><span>🎭</span><h3>Máscaras</h3><p>Vista o personagem.</p></div></a>
   </div>
@@ -425,7 +439,7 @@ function updateBadges(){
 function updateCart(){
  updateBadges();
  const list=document.getElementById('cartList');
- if(!cart.length){list.innerHTML='<div class="empty" style="padding:45px 10px">Seu carrinho está vazio.<br>Comece a escolher seus favoritos. 🎃</div>';shipping=0}
+ if(!cart.length){list.innerHTML='<div class="empty" style="padding:45px 10px">Seu carrinho está vazio.<br>Comece a escolher seus favoritos.</div>';shipping=0}
  else{
   const map={};cart.forEach(id=>map[id]=(map[id]||0)+1);
   list.innerHTML=Object.entries(map).map(([id,qty])=>{const p=products.find(x=>x.id==id);return `<div class="cart-row"><div class="cart-thumb" style="background-image:url('${p.img}')"></div><div><div class="cart-name">${p.name}</div><div class="cart-price">${brl(p.price)}</div><div class="qty"><button onclick="removeOne(${p.id})">−</button><span>${qty}</span><button onclick="add(${p.id})">+</button></div></div><button class="cart-remove" onclick="removeAll(${p.id})">remover</button></div>`}).join('');
@@ -529,7 +543,7 @@ updateBadges();render();updateCart();
   if(brand){brand.addEventListener('click',()=>{
     brandClicks++; brand.classList.remove('spooky-pulse'); void brand.offsetWidth; brand.classList.add('spooky-pulse');
     clearTimeout(brandTimer); brandTimer=setTimeout(()=>brandClicks=0,1800);
-    if(brandClicks>=5){brandClicks=0; spookyToast('🦇 Você encontrou o segredo da Spooky Store. Código: SPOOKY10');
+    if(brandClicks>=5){brandClicks=0; spookyToast('Você encontrou o segredo da Spooky Store. Código: SPOOKY10');
       try{navigator.clipboard?.writeText('SPOOKY10')}catch(e){}
     }
   });}
@@ -549,10 +563,25 @@ updateBadges();render();updateCart();
   }
   const originalAdd=window.add;
   if(typeof originalAdd==='function'){
-    window.add=function(id){ originalAdd(id); if(typeof spookyToast==='function'){const p=products.find(x=>x.id===id); if(p) spookyToast('🎃 '+p.name+' foi para o seu carrinho');} };
+    window.add=function(id){ originalAdd(id); if(typeof spookyToast==='function'){const p=products.find(x=>x.id===id); if(p) spookyToast(p.name+' foi para o seu carrinho');} };
+  }
+  const surprise=document.getElementById('surpriseBtn');
+  if(surprise){surprise.addEventListener('click',()=>{
+    const pool=products.filter(p=>p.badge&&p.badge!=='');
+    const p=pool[Math.floor(Math.random()*pool.length)] || products[Math.floor(Math.random()*products.length)];
+    if(p){quick(p.id);spookyToast('Uma descoberta escolhida para você.');}
+  });}
+  const cinema=document.getElementById('cinemaBtn');
+  if(cinema){
+    cinema.addEventListener('click',()=>{
+      document.body.classList.toggle('cinematic-mode');
+      const active=document.body.classList.contains('cinematic-mode');
+      cinema.textContent=active?'Desativar modo cinematográfico':'Ativar modo cinematográfico';
+      spookyToast(active?'Atmosfera cinematográfica ativada.':'Atmosfera cinematográfica desativada.');
+    });
   }
   document.addEventListener('keydown',e=>{
-    if(e.key.toLowerCase()==='h' && e.ctrlKey){e.preventDefault();spookyToast('🌙 Modo Halloween ativado — você já está nele.');}
+    if(e.key.toLowerCase()==='h' && e.ctrlKey){e.preventDefault();spookyToast('A atmosfera Halloween já está ativa.');}
   });
 })();
 
