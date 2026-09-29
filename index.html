@@ -1,158 +1,463 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Spooky Store — Seu Halloween começa aqui</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080808">
 <meta name="description" content="Spooky Store — fantasias, acessórios e decoração para o Halloween.">
+<title>Spooky Store — Halloween, do seu jeito.</title>
 <style>
 :root{
-  --bg:#070707;--panel:#101010;--panel2:#151515;--orange:#ff6a00;--orange2:#ff9b3d;
-  --cream:#f7f0e6;--muted:#a8a29b;--line:rgba(255,255,255,.09);
-  --shadow:0 24px 70px rgba(0,0,0,.45);--radius:24px;
+  --bg:#070707;--surface:#0d0d0d;--surface2:#121212;--surface3:#181818;
+  --text:#f4efe8;--muted:#96918b;--line:rgba(255,255,255,.09);
+  --orange:#ff6a00;--orange2:#ff9b45;--cream:#f4e9da;
+  --green:#9fe870;--danger:#ff5757;--radius:22px;
+  --shadow:0 30px 90px rgba(0,0,0,.48);--ease:cubic-bezier(.2,.75,.2,1)
 }
-*{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--cream);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
-a{text-decoration:none;color:inherit}button,input{font:inherit}
-.container{width:min(1180px,92%);margin:auto}
-.topbar{background:#0d0d0d;border-bottom:1px solid var(--line);padding:9px 0;text-align:center;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#d8d1c7}
-header{position:sticky;top:0;z-index:20;background:rgba(7,7,7,.84);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
-.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-.logo{font-family:Georgia,serif;font-size:30px;letter-spacing:-.05em;font-weight:700}
-.logo span{color:var(--orange)}
-.navlinks{display:flex;gap:26px;color:#c9c2ba;font-size:14px}
-.navlinks a:hover{color:white}
-.actions{display:flex;gap:10px;align-items:center}
-.iconbtn{border:1px solid var(--line);background:#111;color:white;width:42px;height:42px;border-radius:50%;cursor:pointer}
-.cartcount{position:relative}.cartcount b{position:absolute;right:-2px;top:-3px;background:var(--orange);color:#090909;width:17px;height:17px;border-radius:50%;font-size:10px;display:grid;place-items:center}
-.hero{min-height:650px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:30px;position:relative;overflow:hidden}
-.hero:before{content:"";position:absolute;width:520px;height:520px;right:-180px;top:40px;background:radial-gradient(circle,rgba(255,91,0,.25),transparent 65%);filter:blur(10px)}
-.kicker{color:var(--orange2);text-transform:uppercase;letter-spacing:.22em;font-size:12px;font-weight:800}
-h1{font-family:Georgia,serif;font-size:clamp(48px,7vw,88px);line-height:.92;margin:18px 0;letter-spacing:-.055em}
-h1 em{color:var(--orange);font-style:normal}
-.hero p{max-width:550px;color:#aaa39b;font-size:17px;line-height:1.7}
-.ctas{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
-.btn{border:0;border-radius:13px;padding:14px 20px;font-weight:800;cursor:pointer}
-.btn.primary{background:var(--orange);color:#100a06;box-shadow:0 12px 35px rgba(255,106,0,.2)}
-.btn.secondary{background:#151515;color:white;border:1px solid var(--line)}
-.hero-card{height:500px;border-radius:32px;background:
-linear-gradient(135deg,rgba(255,106,0,.12),transparent 42%),
-url('https://images.unsplash.com/photo-1509557965875-b88c97052f0e?auto=format&fit=crop&w=1200&q=85') center/cover;
-box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
-.hero-card:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.78))}
-.hero-badge{position:absolute;z-index:2;bottom:26px;left:26px;right:26px;padding:20px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.45);backdrop-filter:blur(14px);border-radius:18px}
-.hero-badge strong{font-family:Georgia,serif;font-size:25px}
-.section{padding:78px 0}.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:26px}
-.section h2{font-family:Georgia,serif;font-size:42px;margin:0}.sectionhead p{color:var(--muted);max-width:480px;margin:0;line-height:1.6}
-.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.cat{min-height:150px;padding:22px;border:1px solid var(--line);background:linear-gradient(145deg,#131313,#0b0b0b);border-radius:20px;display:flex;flex-direction:column;justify-content:space-between;transition:.25s}
-.cat:hover{transform:translateY(-4px);border-color:rgba(255,106,0,.45)}
-.cat .emoji{font-size:30px}.cat strong{font-size:17px}.cat small{color:var(--muted);margin-top:5px}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:25px 0}
-.search{flex:1;min-width:230px;background:#101010;border:1px solid var(--line);border-radius:13px;padding:13px 15px;color:white;outline:none}
-.filters button{background:#101010;color:#bbb;border:1px solid var(--line);padding:12px 15px;border-radius:12px;cursor:pointer}
-.filters button.active,.filters button:hover{background:var(--orange);color:#111;border-color:var(--orange)}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.product{background:#0e0e0e;border:1px solid var(--line);border-radius:22px;overflow:hidden;position:relative;transition:.25s}
-.product:hover{transform:translateY(-5px);border-color:rgba(255,106,0,.35);box-shadow:0 20px 55px rgba(0,0,0,.35)}
-.product-img{height:270px;position:relative;background-size:cover;background-position:center}
-.tag{position:absolute;top:12px;left:12px;background:var(--orange);color:#130b06;padding:7px 10px;border-radius:9px;font-size:10px;font-weight:900;text-transform:uppercase}
-.product-body{padding:17px}.product-body h3{font-size:16px;margin:0 0 8px}.stars{color:#ffad61;font-size:12px}.price{font-size:20px;font-weight:900;margin:8px 0}.old{font-size:12px;color:#777;text-decoration:line-through;margin-right:7px}.add{width:100%;margin-top:8px;background:#191919;color:white;border:1px solid var(--line);padding:11px;border-radius:11px;cursor:pointer;font-weight:800}.add:hover{background:var(--orange);color:#111}
-.banner{margin-top:25px;padding:42px;border-radius:28px;background:linear-gradient(100deg,#1a0b04,#120d0a 45%,#0d0d0d);border:1px solid rgba(255,106,0,.22);display:flex;justify-content:space-between;align-items:center;gap:25px}
-.banner h3{font-family:Georgia,serif;font-size:34px;margin:0 0 8px}.banner p{color:#aaa;margin:0}
-footer{border-top:1px solid var(--line);padding:45px 0;color:#8e8881}.foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}.foot strong{color:white;font-family:Georgia,serif;font-size:22px}.foot small{display:block;margin-top:10px;max-width:360px;line-height:1.6}
-.drawer{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:40;display:none}.drawer.open{display:block}.cart{position:absolute;right:0;top:0;height:100%;width:min(430px,92%);background:#0d0d0d;border-left:1px solid var(--line);padding:24px;overflow:auto}.carthead{display:flex;justify-content:space-between;align-items:center}.cartitems{margin:25px 0}.cartitem{display:grid;grid-template-columns:65px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.thumb{width:65px;height:65px;border-radius:12px;background-size:cover;background-position:center}.qty{color:#aaa;font-size:12px}.total{display:flex;justify-content:space-between;font-size:19px;font-weight:900;margin:20px 0}.empty{color:#777;text-align:center;padding:50px 0}
-@media(max-width:900px){.hero{grid-template-columns:1fr}.hero-card{height:420px}.grid{grid-template-columns:repeat(2,1fr)}.categories{grid-template-columns:repeat(2,1fr)}.navlinks{display:none}}
-@media(max-width:560px){.grid{grid-template-columns:1fr 1fr;gap:10px}.product-img{height:210px}.section{padding:55px 0}.section h2{font-size:32px}.hero{min-height:auto;padding:65px 0}.hero-card{height:360px}.banner{padding:25px;display:block}.banner .btn{margin-top:18px}.product-body{padding:12px}.product-body h3{font-size:14px}.price{font-size:17px}}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+body.lock{overflow:hidden}
+button,input,select{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+::selection{background:var(--orange);color:#080808}
+.container{width:min(1220px,92vw);margin:auto}
+.progress{position:fixed;z-index:1000;top:0;left:0;height:2px;width:0;background:var(--orange);box-shadow:0 0 14px var(--orange)}
+.announcement{height:34px;display:flex;align-items:center;justify-content:center;background:#0b0b0b;border-bottom:1px solid var(--line);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#c9c0b7}
+.announcement b{color:var(--orange2)}
+header{position:sticky;top:0;z-index:100;background:rgba(7,7,7,.72);border-bottom:1px solid transparent;backdrop-filter:blur(18px);transition:.35s}
+header.scrolled{background:rgba(7,7,7,.94);border-color:var(--line);box-shadow:0 15px 45px rgba(0,0,0,.28)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:22px}
+.brand{display:flex;align-items:center;gap:10px;font-family:Georgia,serif;font-size:24px;letter-spacing:-.05em;font-weight:700;white-space:nowrap}
+.brandmark{width:35px;height:35px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#ff8c32,#d84600);color:#080808;font-family:Georgia,serif;font-size:20px;box-shadow:0 0 25px rgba(255,106,0,.2)}
+.brand em{font-style:normal;color:var(--orange)}
+.navlinks{display:flex;gap:28px;color:#bdb7b0;font-size:13px}
+.navlinks a{position:relative;padding:8px 0}
+.navlinks a:after{content:"";position:absolute;left:0;right:100%;bottom:1px;height:1px;background:var(--orange);transition:.25s}
+.navlinks a:hover{color:white}.navlinks a:hover:after{right:0}
+.nav-actions{display:flex;gap:8px}
+.icon{position:relative;width:42px;height:42px;border:1px solid var(--line);border-radius:50%;background:#101010;color:white;display:grid;place-items:center;transition:.22s}
+.icon:hover{transform:translateY(-2px);border-color:rgba(255,106,0,.4);background:#171717}
+.badge{position:absolute;right:-2px;top:-2px;min-width:17px;height:17px;padding:0 4px;border-radius:20px;background:var(--orange);color:#090909;font-size:9px;font-weight:900;display:grid;place-items:center}
+.mobile-menu{display:none}
+
+/* hero */
+.hero{min-height:calc(100svh - 106px);display:grid;grid-template-columns:1.02fr .98fr;align-items:center;gap:45px;padding:74px 0 65px;position:relative}
+.hero:before{content:"";position:absolute;width:650px;height:650px;right:-260px;top:0;background:radial-gradient(circle,rgba(255,82,0,.2),transparent 68%);filter:blur(20px);pointer-events:none}
+.eyebrow{display:flex;align-items:center;gap:10px;color:var(--orange2);font-size:10px;letter-spacing:.24em;text-transform:uppercase;font-weight:900}
+.eyebrow:before{content:"";width:25px;height:1px;background:var(--orange)}
+.hero h1{font-family:Georgia,serif;font-weight:500;font-size:clamp(54px,7vw,94px);line-height:.9;letter-spacing:-.065em;margin:20px 0 25px}
+.hero h1 span{color:var(--orange)}
+.hero-copy{max-width:580px;color:#aaa49d;font-size:16px;line-height:1.75}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin:28px 0 34px}
+.btn{border:0;border-radius:13px;padding:14px 19px;font-weight:850;transition:transform .2s,box-shadow .25s,background .25s;position:relative;overflow:hidden}
+.btn:hover{transform:translateY(-2px)}
+.btn.primary{background:var(--orange);color:#120b07;box-shadow:0 12px 35px rgba(255,106,0,.16)}
+.btn.primary:hover{box-shadow:0 18px 45px rgba(255,106,0,.3)}
+.btn.dark{background:#151515;border:1px solid var(--line);color:white}
+.trust{display:flex;gap:20px;flex-wrap:wrap;color:#77716b;font-size:11px}
+.trust span{display:flex;align-items:center;gap:7px}.trust i{color:var(--orange);font-style:normal}
+.hero-media{height:min(650px,68vw);min-height:500px;border-radius:32px;position:relative;overflow:hidden;background:#14100d url("https://images.pexels.com/photos/5600071/pexels-photo-5600071.jpeg?cs=srgb&dl=pexels-leish-5600071.jpg&fm=jpg") center/cover;box-shadow:var(--shadow);border:1px solid var(--line)}
+.hero-media:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.02) 20%,rgba(0,0,0,.72) 100%)}
+.hero-media:before{content:"";position:absolute;inset:-40%;z-index:2;background:linear-gradient(115deg,transparent 43%,rgba(255,255,255,.1) 50%,transparent 57%);transform:translateX(-70%);transition:1s var(--ease)}
+.hero-media:hover:before{transform:translateX(70%)}
+.hero-label{position:absolute;z-index:3;left:24px;right:24px;bottom:24px;padding:19px;border:1px solid rgba(255,255,255,.12);border-radius:17px;background:rgba(5,5,5,.5);backdrop-filter:blur(14px)}
+.hero-label small{color:#aaa}.hero-label strong{display:block;font-family:Georgia,serif;font-size:25px;margin:3px 0}
+.floating{position:absolute;z-index:4;top:25px;right:25px;background:rgba(8,8,8,.68);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);padding:10px 13px;border-radius:12px;font-size:11px}.floating b{color:var(--orange)}
+
+/* strips */
+.strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#0a0a0a}
+.strip-inner{height:58px;display:flex;align-items:center;justify-content:space-between;gap:15px;overflow:hidden}
+.strip-item{display:flex;align-items:center;gap:9px;color:#aaa;font-size:11px;white-space:nowrap}.strip-item b{color:#f2e8de;font-weight:750}.strip-item i{color:var(--orange);font-style:normal}
+
+/* sections */
+.section{padding:90px 0}.section-head{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:32px}
+.section-head .eyebrow{margin-bottom:8px}.section-title{font-family:Georgia,serif;font-weight:500;font-size:clamp(34px,4vw,54px);letter-spacing:-.045em;margin:0}
+.section-desc{max-width:470px;color:#858079;font-size:13px;line-height:1.7;margin:0}
+
+/* category cards */
+.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.category{height:205px;border-radius:20px;border:1px solid var(--line);position:relative;overflow:hidden;background-size:cover;background-position:center;isolation:isolate;transition:.4s var(--ease)}
+.category:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 15%,rgba(0,0,0,.88) 100%);z-index:-1}
+.category:hover{transform:translateY(-6px);border-color:rgba(255,106,0,.4);box-shadow:0 22px 50px rgba(0,0,0,.32)}
+.category-content{position:absolute;z-index:2;left:18px;right:18px;bottom:17px}
+.category-content span{font-size:25px}.category-content h3{font-family:Georgia,serif;margin:7px 0 3px;font-size:22px}.category-content p{margin:0;color:#aaa;font-size:11px}
+
+/* product controls */
+.catalog-top{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:18px}
+.count{color:#777;font-size:12px}
+.controls{display:grid;grid-template-columns:1fr auto;gap:10px;margin-bottom:22px}
+.searchbox{position:relative}
+.searchbox input{width:100%;height:48px;border:1px solid var(--line);background:#0e0e0e;border-radius:13px;color:white;padding:0 45px 0 15px;outline:none;transition:.2s}
+.searchbox input:focus{border-color:rgba(255,106,0,.5);box-shadow:0 0 0 4px rgba(255,106,0,.06)}
+.searchbox span{position:absolute;right:15px;top:50%;transform:translateY(-50%);color:#777}
+.select{height:48px;border:1px solid var(--line);background:#0e0e0e;color:#ddd;border-radius:13px;padding:0 38px 0 14px;outline:none}
+.filter-row{display:flex;gap:7px;overflow:auto;scrollbar-width:none;padding-bottom:3px;margin-bottom:24px}.filter-row::-webkit-scrollbar{display:none}
+.filter{white-space:nowrap;background:#0e0e0e;border:1px solid var(--line);color:#999;border-radius:999px;padding:10px 15px;font-size:11px;transition:.2s}
+.filter:hover,.filter.active{background:var(--orange);border-color:var(--orange);color:#111;font-weight:850}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.product{background:#0e0e0e;border:1px solid var(--line);border-radius:19px;overflow:hidden;position:relative;transition:.35s var(--ease)}
+.product:hover{transform:translateY(-6px);border-color:rgba(255,106,0,.32);box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.product-image{height:305px;background-size:cover;background-position:center;position:relative;overflow:hidden}
+.product-image:after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.1) 50%,transparent 65%);transform:translateX(-120%);transition:.7s}.product:hover .product-image:after{transform:translateX(120%)}
+.product-tag{position:absolute;z-index:2;left:11px;top:11px;background:var(--orange);color:#100a06;border-radius:8px;padding:6px 8px;font-size:9px;font-weight:900;text-transform:uppercase}
+.wish{position:absolute;z-index:3;right:10px;top:10px;width:35px;height:35px;border:1px solid rgba(255,255,255,.14);border-radius:50%;background:rgba(0,0,0,.55);color:white;display:grid;place-items:center;backdrop-filter:blur(9px)}
+.wish.active{color:#ff6a00;border-color:rgba(255,106,0,.5)}
+.quick{position:absolute;z-index:3;right:10px;bottom:10px;width:37px;height:37px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.6);color:white;opacity:0;transform:translateY(8px);transition:.22s;backdrop-filter:blur(9px)}
+.product:hover .quick{opacity:1;transform:none}
+.product-info{padding:14px}.stars{font-size:10px;letter-spacing:2px;color:#ffad61}.reviews{color:#68635d;letter-spacing:0;margin-left:4px}
+.product-name{font-size:14px;line-height:1.35;min-height:38px;margin:6px 0 8px}
+.price-row{display:flex;align-items:baseline;gap:7px}.price{font-size:18px;font-weight:900}.old{font-size:11px;color:#666;text-decoration:line-through}
+.add{width:100%;margin-top:11px;height:40px;border:1px solid var(--line);border-radius:10px;background:#171717;color:white;font-size:11px;font-weight:850;transition:.2s}.add:hover{background:var(--orange);color:#111;border-color:var(--orange)}
+.empty{grid-column:1/-1;text-align:center;border:1px dashed var(--line);border-radius:20px;padding:65px 20px;color:#777}
+
+/* promo */
+.promo{display:grid;grid-template-columns:1.1fr .9fr;border-radius:28px;overflow:hidden;background:#111;border:1px solid var(--line);min-height:350px}
+.promo-copy{padding:50px;display:flex;flex-direction:column;justify-content:center}.promo-copy .section-title{max-width:570px}.promo-copy p{color:#999;line-height:1.7;max-width:510px}.promo-media{background:url("https://images.pexels.com/photos/5600005/pexels-photo-5600005.jpeg?cs=srgb&dl=pexels-leish-5600005.jpg&fm=jpg") center/cover;min-height:350px;position:relative}.promo-media:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#111 0%,transparent 35%)}
+
+/* features */
+.features{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:20px;overflow:hidden}.feature{padding:24px;border-right:1px solid var(--line);background:#0b0b0b}.feature:last-child{border:0}.feature i{font-style:normal;color:var(--orange);font-size:21px}.feature h3{font-size:13px;margin:14px 0 5px}.feature p{color:#777;font-size:11px;line-height:1.55;margin:0}
+
+/* faq/footer */
+.faq{max-width:850px;margin:auto}.faq-item{border-top:1px solid var(--line)}.faq-item:last-child{border-bottom:1px solid var(--line)}.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;padding:20px 0;background:none;border:0;color:white;text-align:left;font-weight:750}.faq-q span{color:var(--orange);font-size:20px}.faq-a{max-height:0;overflow:hidden;color:#777;font-size:12px;line-height:1.7;transition:max-height .35s}.faq-item.open .faq-a{max-height:130px;padding-bottom:20px}
+footer{border-top:1px solid var(--line);padding:60px 0 28px;background:#050505}.footer-grid{display:grid;grid-template-columns:1.4fr .7fr .7fr .9fr;gap:40px}.footer-brand p{color:#777;max-width:320px;font-size:12px;line-height:1.7}.footer h4{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:#aaa}.footer a{display:block;color:#777;font-size:12px;margin:11px 0}.footer a:hover{color:white}.footer-bottom{border-top:1px solid var(--line);margin-top:45px;padding-top:20px;color:#555;font-size:10px;display:flex;justify-content:space-between;gap:20px}
+
+/* overlays */
+.drawer-backdrop,.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:300;display:none}.drawer-backdrop.open,.modal-backdrop.open{display:block}
+.cart{position:absolute;right:0;top:0;height:100%;width:min(455px,100%);background:#0c0c0c;border-left:1px solid var(--line);padding:22px;overflow:auto;animation:slideIn .3s var(--ease)}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:none}}
+.overlay-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:18px;border-bottom:1px solid var(--line)}.overlay-head h2{font-family:Georgia,serif;font-weight:500;margin:0;font-size:27px}
+.close{width:38px;height:38px;border-radius:50%;background:#151515;border:1px solid var(--line);color:white}
+.cart-list{padding:12px 0}.cart-row{display:grid;grid-template-columns:70px 1fr auto;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);align-items:center}.cart-thumb{height:70px;border-radius:12px;background-size:cover;background-position:center}.cart-name{font-size:12px;font-weight:750;line-height:1.4}.cart-price{font-size:12px;font-weight:900;margin-top:5px}.qty{display:flex;align-items:center;gap:7px;margin-top:8px}.qty button{width:24px;height:24px;border-radius:7px;background:#171717;border:1px solid var(--line);color:white}.cart-remove{background:none;border:0;color:#666;font-size:11px}.cart-summary{border-top:1px solid var(--line);padding-top:17px}.summary-line{display:flex;justify-content:space-between;color:#999;font-size:12px;margin:9px 0}.summary-total{display:flex;justify-content:space-between;font-size:19px;font-weight:900;margin:16px 0}.shipping{display:grid;grid-template-columns:1fr auto;gap:7px;margin:13px 0}.shipping input{min-width:0;height:42px;background:#111;border:1px solid var(--line);border-radius:10px;color:white;padding:0 11px;outline:none}.shipping button{height:42px;background:#171717;color:white;border:1px solid var(--line);border-radius:10px;padding:0 12px;font-size:11px}
+.coupon{display:flex;gap:7px;margin:10px 0}.coupon input{flex:1;height:40px;background:#111;border:1px solid var(--line);border-radius:10px;color:white;padding:0 10px;outline:none}.coupon button{height:40px;border:1px solid var(--line);background:#171717;color:white;border-radius:10px;padding:0 12px;font-size:11px}
+.modal-wrap{position:fixed;inset:0;z-index:350;display:none;align-items:center;justify-content:center;padding:18px}.modal-wrap.open{display:flex}.modal{width:min(900px,100%);max-height:90vh;overflow:auto;background:#0d0d0d;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr 1fr;animation:modal .3s var(--ease)}@keyframes modal{from{opacity:0;transform:translateY(15px) scale(.98)}to{opacity:1;transform:none}}
+.modal-img{min-height:510px;background-size:cover;background-position:center}.modal-copy{padding:38px;display:flex;flex-direction:column;justify-content:center}.modal-copy h2{font-family:Georgia,serif;font-size:40px;font-weight:500;line-height:1;margin:10px 0}.modal-copy p{color:#888;font-size:13px;line-height:1.7}.modal-price{font-size:26px;font-weight:900;margin:12px 0}.modal-select{height:45px;background:#111;color:white;border:1px solid var(--line);border-radius:10px;padding:0 12px;margin:8px 0}
+.toast{position:fixed;z-index:500;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:#151515;border:1px solid rgba(255,106,0,.35);border-radius:12px;padding:12px 17px;box-shadow:var(--shadow);font-size:12px;pointer-events:none;transition:.3s}.toast.show{opacity:1;transform:translate(-50%,0)}
+.cookie{position:fixed;z-index:250;left:20px;bottom:20px;width:min(390px,calc(100vw - 40px));background:#111;border:1px solid var(--line);border-radius:17px;padding:17px;box-shadow:var(--shadow);display:none}.cookie.show{display:block}.cookie p{font-size:11px;color:#888;line-height:1.6;margin:0 0 12px}.cookie-actions{display:flex;gap:7px}.cookie-actions button{flex:1;height:37px;border-radius:9px;border:1px solid var(--line);background:#171717;color:white;font-size:11px}.cookie-actions .accept{background:var(--orange);color:#111;border-color:var(--orange)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s}.reveal.show{opacity:1;transform:none}
+@media(max-width:1050px){.navlinks{display:none}.grid{grid-template-columns:repeat(3,1fr)}.categories{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr}.hero-media{height:560px}.footer-grid{grid-template-columns:1fr 1fr}.features{grid-template-columns:1fr 1fr}.feature:nth-child(2){border-right:0}.feature:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+@media(max-width:650px){
+ .container{width:94vw}.announcement{height:30px;font-size:8px;letter-spacing:.12em}.nav{height:62px}.brand{font-size:21px}.brandmark{width:31px;height:31px;font-size:17px}.icon{width:39px;height:39px}
+ .hero{padding:52px 0 42px;gap:28px}.hero h1{font-size:56px}.hero-copy{font-size:14px}.hero-media{height:390px;min-height:390px;border-radius:23px}.floating{top:14px;right:14px}.hero-label{left:14px;right:14px;bottom:14px}
+ .strip-inner{height:48px}.strip-item:nth-child(3),.strip-item:nth-child(4){display:none}
+ .section{padding:62px 0}.section-head{display:block}.section-desc{margin-top:10px}.section-title{font-size:38px}
+ .categories{grid-template-columns:1fr 1fr;gap:9px}.category{height:160px;border-radius:16px}.category-content{left:13px;right:13px;bottom:13px}.category-content h3{font-size:18px}.category-content p{font-size:9px}
+ .catalog-top{display:block}.catalog-top .section-desc{display:none}.controls{grid-template-columns:1fr}.select{width:100%}.filter-row{margin-bottom:17px}
+ .grid{grid-template-columns:1fr 1fr;gap:9px}.product{border-radius:15px}.product-image{height:220px}.product-info{padding:10px}.product-name{font-size:12px;min-height:34px}.price{font-size:15px}.old{font-size:9px}.add{height:38px;font-size:10px}.quick{opacity:1;transform:none;width:33px;height:33px}.wish{width:33px;height:33px}
+ .promo{grid-template-columns:1fr}.promo-copy{padding:30px}.promo-media{min-height:280px}.promo-media:after{background:linear-gradient(180deg,transparent,#111)}
+ .features{grid-template-columns:1fr}.feature{border-right:0!important;border-bottom:1px solid var(--line)}.feature:last-child{border-bottom:0}
+ .footer-grid{grid-template-columns:1fr 1fr;gap:25px}.footer-brand{grid-column:1/-1}.footer-bottom{display:block}.footer-bottom span{display:block;margin-top:7px}
+ .modal{grid-template-columns:1fr;max-height:92vh}.modal-img{min-height:300px}.modal-copy{padding:25px}.modal-copy h2{font-size:31px}.modal-wrap{padding:10px}
+ .cookie{left:10px;bottom:10px;width:calc(100vw - 20px)}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+@media(max-width:650px){
+ .mobile-menu{display:grid!important}
+ .navlinks.mobile-open{display:flex;position:absolute;top:62px;left:3vw;right:3vw;flex-direction:column;gap:0;padding:8px;background:rgba(13,13,13,.98);border:1px solid var(--line);border-radius:16px;box-shadow:0 25px 60px rgba(0,0,0,.5);z-index:120}
+ .navlinks.mobile-open a{padding:14px;border-bottom:1px solid var(--line)}
+ .navlinks.mobile-open a:last-child{border-bottom:0}
+}
+
 </style>
 </head>
 <body>
-<div class="topbar">🎃 temporada Halloween 2026 · frete grátis acima de R$ 199</div>
-<header>
+<div class="progress" id="progress"></div>
+
+<div class="announcement">🎃 <b>HALLOWEEN 2026</b>&nbsp; · &nbsp;FRETE GRÁTIS ACIMA DE R$ 199&nbsp; · &nbsp;ATÉ 6X NO CARTÃO</div>
+
+<header id="header">
   <div class="container nav">
-    <a class="logo" href="#"><span>S</span>POOKY <span>STORE</span></a>
-    <nav class="navlinks"><a href="#produtos">Produtos</a><a href="#categorias">Categorias</a><a href="#sobre">Sobre</a></nav>
-    <div class="actions"><button class="iconbtn" onclick="document.querySelector('#produtos').scrollIntoView()">⌕</button><button class="iconbtn cartcount" onclick="openCart()">🛒<b id="count">0</b></button></div>
+    <a class="brand" href="#"><span class="brandmark">S</span><span>SPOOKY <em>STORE</em></span></a>
+    <nav class="navlinks">
+      <a href="#colecao">Coleção</a><a href="#categorias">Categorias</a><a href="#sobre">Por que Spooky</a><a href="#faq">Dúvidas</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon" aria-label="Buscar" onclick="focusSearch()">⌕</button>
+      <button class="icon" aria-label="Favoritos" onclick="showWishlist()">♡<span class="badge" id="wishCount">0</span></button>
+      <button class="icon" aria-label="Carrinho" onclick="openCart()">🛒<span class="badge" id="cartCount">0</span></button>
+      <button class="icon mobile-menu" aria-label="Menu" onclick="toggleMobile()">☰</button>
+    </div>
   </div>
 </header>
 
 <main>
 <section class="container hero">
   <div>
-    <div class="kicker">Halloween 2026 · coleção oficial</div>
-    <h1>Seu Halloween.<br><em>Suas regras.</em></h1>
-    <p>Fantasias, acessórios e decoração escolhidos para transformar uma noite comum em uma experiência inesquecível.</p>
-    <div class="ctas"><a class="btn primary" href="#produtos">Explorar coleção</a><a class="btn secondary" href="#categorias">Ver categorias</a></div>
+    <div class="eyebrow">A temporada começou</div>
+    <h1>Halloween,<br><span>do seu jeito.</span></h1>
+    <p class="hero-copy">Uma curadoria de fantasias, acessórios e decoração para você transformar a noite mais esperada do ano em algo inesquecível.</p>
+    <div class="hero-actions"><a class="btn primary" href="#colecao">Explorar coleção →</a><a class="btn dark" href="#categorias">Ver categorias</a></div>
+    <div class="trust"><span><i>✦</i> seleção especial</span><span><i>✦</i> compra segura</span><span><i>✦</i> suporte online</span></div>
   </div>
-  <div class="hero-card"><div class="hero-badge"><strong>SPooky season is on.</strong><br><span style="color:#aaa">Descubra os favoritos da temporada.</span></div></div>
+  <div class="hero-media">
+    <div class="floating">COLEÇÃO <b>2026</b></div>
+    <div class="hero-label"><small>SPooky season is on.</small><strong>Entre no clima.</strong><span style="color:#888;font-size:11px">Peças para criar o seu próprio universo.</span></div>
+  </div>
 </section>
+
+<div class="strip"><div class="container strip-inner">
+  <div class="strip-item"><i>✦</i><b>Fantasias</b> para todos os estilos</div>
+  <div class="strip-item"><i>✦</i><b>Decoração</b> que muda o ambiente</div>
+  <div class="strip-item"><i>✦</i><b>Acessórios</b> que fazem diferença</div>
+  <div class="strip-item"><i>✦</i><b>Compra</b> simples e segura</div>
+</div></div>
 
 <section class="container section" id="categorias">
-  <div class="sectionhead"><div><div class="kicker">Escolha seu estilo</div><h2>Explore a noite.</h2></div><p>Do visual completo aos pequenos detalhes, encontre tudo para montar sua atmosfera.</p></div>
+  <div class="section-head"><div><div class="eyebrow">Escolha a atmosfera</div><h2 class="section-title">Explore por categoria.</h2></div><p class="section-desc">Comece pelo que você precisa e monte o resto do seu Halloween a partir daí.</p></div>
   <div class="categories">
-    <a class="cat" href="#produtos" onclick="filter('fantasia')"><span class="emoji">🧙</span><div><strong>Fantasias</strong><small>Looks para entrar no personagem.</small></div></a>
-    <a class="cat" href="#produtos" onclick="filter('decoracao')"><span class="emoji">🎃</span><div><strong>Decoração</strong><small>Transforme qualquer ambiente.</small></div></a>
-    <a class="cat" href="#produtos" onclick="filter('acessorio')"><span class="emoji">🎭</span><div><strong>Acessórios</strong><small>O detalhe que muda tudo.</small></div></a>
-    <a class="cat" href="#produtos" onclick="filter('mascara')"><span class="emoji">👻</span><div><strong>Máscaras</strong><small>Entre no clima em segundos.</small></div></a>
+    <a class="category reveal" href="#colecao" onclick="setFilter('fantasia')" style="background-image:url('https://images.pexels.com/photos/5600005/pexels-photo-5600005.jpeg?cs=srgb&dl=pexels-leish-5600005.jpg&fm=jpg')"><div class="category-content"><span>🧙</span><h3>Fantasias</h3><p>Do clássico ao diferente.</p></div></a>
+    <a class="category reveal" href="#colecao" onclick="setFilter('decoracao')" style="background-image:url('https://images.unsplash.com/photo-1508361001413-7a7c6b0a6e4f?auto=format&fit=crop&w=1000&q=85')"><div class="category-content"><span>🎃</span><h3>Decoração</h3><p>Crie o cenário.</p></div></a>
+    <a class="category reveal" href="#colecao" onclick="setFilter('acessorio')" style="background-image:url('https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1000&q=85')"><div class="category-content"><span>🕸️</span><h3>Acessórios</h3><p>O detalhe final.</p></div></a>
+    <a class="category reveal" href="#colecao" onclick="setFilter('mascara')" style="background-image:url('https://images.unsplash.com/photo-1505635552518-3448ff116af3?auto=format&fit=crop&w=1000&q=85')"><div class="category-content"><span>🎭</span><h3>Máscaras</h3><p>Vista o personagem.</p></div></a>
   </div>
 </section>
 
-<section class="container section" id="produtos">
-  <div class="sectionhead"><div><div class="kicker">Curadoria Spooky</div><h2>Favoritos da temporada</h2></div><p>Preços demonstrativos baseados em referências de mercado consultadas em setembro de 2026. As fotos são referências de produto; antes da venda, use imagens autorizadas pelo fornecedor. Estoque e preço final devem ser atualizados antes da venda.</p></div>
-  <div class="toolbar"><input id="search" class="search" placeholder="Buscar produto..." oninput="render()"><div class="filters">
-    <button class="active" onclick="filter('todos',this)">Todos</button><button onclick="filter('fantasia',this)">Fantasias</button><button onclick="filter('decoracao',this)">Decoração</button><button onclick="filter('acessorio',this)">Acessórios</button><button onclick="filter('mascara',this)">Máscaras</button>
-  </div></div>
+<section class="container section" id="colecao">
+  <div class="catalog-top"><div><div class="eyebrow">Curadoria Spooky</div><h2 class="section-title">Favoritos da temporada.</h2></div><p class="section-desc">Escolhas em destaque para começar sua produção.</p></div>
+  <div class="controls">
+    <div class="searchbox"><input id="search" type="search" autocomplete="off" placeholder="Buscar por produto..." oninput="render()"><span>⌕</span></div>
+    <select id="sort" class="select" onchange="render()"><option value="featured">Mais relevantes</option><option value="low">Menor preço</option><option value="high">Maior preço</option><option value="discount">Maior desconto</option></select>
+  </div>
+  <div class="filter-row">
+    <button class="filter active" data-filter="todos" onclick="setFilter('todos',this)">Todos</button>
+    <button class="filter" data-filter="fantasia" onclick="setFilter('fantasia',this)">Fantasias</button>
+    <button class="filter" data-filter="decoracao" onclick="setFilter('decoracao',this)">Decoração</button>
+    <button class="filter" data-filter="acessorio" onclick="setFilter('acessorio',this)">Acessórios</button>
+    <button class="filter" data-filter="mascara" onclick="setFilter('mascara',this)">Máscaras</button>
+  </div>
+  <div class="count" id="countText"></div>
   <div class="grid" id="grid"></div>
-  <div class="banner"><div><h3>Prepare-se para a noite.</h3><p>Escolha seus favoritos e monte seu Halloween.</p></div><a class="btn primary" href="#produtos">Ver produtos</a></div>
+</section>
+
+<section class="container section">
+  <div class="promo reveal">
+    <div class="promo-copy"><div class="eyebrow">Manifesto Spooky</div><h2 class="section-title">Mais que produtos.<br>Uma experiência.</h2><p>O Halloween está nos detalhes: uma fantasia que muda sua presença, uma máscara que cria um personagem, uma decoração que transforma o espaço.</p><a class="btn primary" style="width:max-content" href="#colecao">Montar meu Halloween →</a></div>
+    <div class="promo-media"></div>
+  </div>
 </section>
 
 <section class="container section" id="sobre">
-  <div class="sectionhead"><div><div class="kicker">Sobre a Spooky</div><h2>Mais que produtos.</h2></div><p>Uma experiência visual feita para quem quer sair do comum no Halloween.</p></div>
+  <div class="section-head"><div><div class="eyebrow">Por que Spooky</div><h2 class="section-title">Feito para a experiência.</h2></div><p class="section-desc">Uma loja pensada para ser simples de navegar e gostosa de descobrir.</p></div>
+  <div class="features">
+    <div class="feature"><i>✦</i><h3>Curadoria</h3><p>Produtos selecionados para criar combinações e não apenas um catálogo infinito.</p></div>
+    <div class="feature"><i>◈</i><h3>Compra simples</h3><p>Busca rápida, filtros, favoritos e carrinho em poucos toques.</p></div>
+    <div class="feature"><i>⌁</i><h3>Mobile first</h3><p>Experiência pensada para funcionar muito bem no celular.</p></div>
+    <div class="feature"><i>✓</i><h3>Transparência</h3><p>Preços, descontos e informações apresentados de forma clara.</p></div>
+  </div>
+</section>
+
+<section class="container section" id="faq">
+  <div class="section-head"><div><div class="eyebrow">Ajuda</div><h2 class="section-title">Perguntas frequentes.</h2></div></div>
+  <div class="faq">
+    <div class="faq-item"><button class="faq-q">Quais formas de pagamento posso oferecer?<span>+</span></button><div class="faq-a">O site está preparado para receber a integração com Pix, cartão e outros meios através do gateway que você escolher.</div></div>
+    <div class="faq-item"><button class="faq-q">O checkout já está conectado?<span>+</span></button><div class="faq-a">Ainda não. O checkout atual é demonstrativo para você poder testar a experiência. A conexão real exige as credenciais do seu gateway.</div></div>
+    <div class="faq-item"><button class="faq-q">Posso trocar os produtos e preços?<span>+</span></button><div class="faq-a">Sim. O catálogo está centralizado no JavaScript e pode ser conectado depois a um banco de dados ou painel administrativo.</div></div>
+    <div class="faq-item"><button class="faq-q">As imagens já podem ser usadas comercialmente?<span>+</span></button><div class="faq-a">Algumas imagens são referências de bancos de imagens ou páginas de produto. Antes de publicar a loja, substitua as fotos por imagens licenciadas/autorizadas pelos fornecedores.</div></div>
+  </div>
 </section>
 </main>
 
-<footer><div class="container foot"><div><strong>SPOOKY STORE</strong><small>Seu Halloween começa aqui.<br>Fantasias · Decoração · Acessórios</small></div><div>© 2026 Spooky Store · Todos os direitos reservados.</div></div></footer>
+<footer>
+<div class="container footer-grid">
+  <div class="footer-brand"><div class="brand"><span class="brandmark">S</span><span>SPOOKY <em>STORE</em></span></div><p>Seu Halloween começa aqui. Uma experiência de compra criada para quem quer sair do comum.</p></div>
+  <div><h4>Loja</h4><a href="#colecao">Produtos</a><a href="#categorias">Categorias</a><a href="#colecao" onclick="setFilter('fantasia')">Fantasias</a><a href="#colecao" onclick="setFilter('decoracao')">Decoração</a></div>
+  <div><h4>Ajuda</h4><a href="#faq">Perguntas frequentes</a><a href="#">Política de troca</a><a href="#">Privacidade</a><a href="#">Termos</a></div>
+  <div><h4>Contato</h4><a href="mailto:contato@spookystore.com.br">contato@spookystore.com.br</a><a href="#">Instagram</a><a href="#">WhatsApp</a></div>
+</div>
+<div class="container footer-bottom"><span>© 2026 Spooky Store. Todos os direitos reservados.</span><span>Halloween • Fantasias • Decoração • Acessórios</span></div>
+</footer>
 
-<div class="drawer" id="drawer" onclick="if(event.target===this)closeCart()"><aside class="cart"><div class="carthead"><h2>Seu carrinho</h2><button class="iconbtn" onclick="closeCart()">×</button></div><div class="cartitems" id="cartitems"></div><div class="total"><span>Total</span><span id="total">R$ 0,00</span></div><button class="btn primary" style="width:100%" onclick="checkout()">Finalizar compra</button></aside></div>
+<!-- CART -->
+<div class="drawer-backdrop" id="cartBackdrop" onclick="if(event.target===this)closeCart()">
+<aside class="cart">
+  <div class="overlay-head"><h2>Seu carrinho</h2><button class="close" onclick="closeCart()">×</button></div>
+  <div class="cart-list" id="cartList"></div>
+  <div class="cart-summary">
+    <div class="coupon"><input id="coupon" placeholder="Cupom de desconto"><button onclick="applyCoupon()">Aplicar</button></div>
+    <div class="shipping"><input id="cep" inputmode="numeric" maxlength="9" placeholder="Seu CEP"><button onclick="calcShipping()">Calcular</button></div>
+    <div id="shipMsg" style="font-size:10px;color:#777"></div>
+    <div class="summary-line"><span>Subtotal</span><span id="subtotal">R$ 0,00</span></div>
+    <div class="summary-line"><span>Desconto</span><span id="discount">R$ 0,00</span></div>
+    <div class="summary-line"><span>Frete</span><span id="shipping">A calcular</span></div>
+    <div class="summary-total"><span>Total</span><span id="total">R$ 0,00</span></div>
+    <button class="btn primary" style="width:100%" onclick="checkout()">Continuar para pagamento →</button>
+    <div style="text-align:center;color:#555;font-size:9px;margin-top:11px">Checkout demonstrativo · conecte seu gateway para vender de verdade.</div>
+  </div>
+</aside>
+</div>
+
+<!-- QUICK VIEW -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target===this)closeModal()"></div>
+<div class="modal-wrap" id="modalWrap">
+<div class="modal">
+  <div class="modal-img" id="modalImg"></div>
+  <div class="modal-copy">
+    <div class="eyebrow" id="modalTag">SPOOKY STORE</div>
+    <h2 id="modalName"></h2>
+    <div class="stars">★★★★★ <span class="reviews">(curadoria Spooky)</span></div>
+    <p id="modalDesc"></p>
+    <div class="modal-price" id="modalPrice"></div>
+    <select class="modal-select"><option>Tamanho / opção</option><option>Único</option><option>P</option><option>M</option><option>G</option><option>GG</option></select>
+    <button class="btn primary" id="modalAdd">Adicionar ao carrinho</button>
+  </div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="cookie" id="cookie"><p>Usamos armazenamento local para manter seu carrinho e favoritos neste dispositivo durante a navegação.</p><div class="cookie-actions"><button onclick="hideCookie()">Agora não</button><button class="accept" onclick="acceptCookie()">Entendi</button></div></div>
 
 <script>
 const products=[
- {id:1,name:"Fantasia Bruxa Preta Magic",cat:"fantasia",price:149.90,old:179.90,badge:"Destaque",img:"https://down-br.img.susercontent.com/file/sg-11134201-7rbnh-lptzod1urnhm9f"},
- {id:2,name:"Fantasia Vampira Vitoriana",cat:"fantasia",price:189.90,old:229.90,badge:"Oferta",img:"https://ae01.alicdn.com/kf/HTB1XQ_KgljTBKNjSZFDq6zVgVXaA/High-Quality-Vampire-Adult-Women-Costume-Dress-Cloak-Halloween-Party-Carnival-Costume.jpg"},
- {id:3,name:"Kit 30 Enfeites Aranha, Morcego & Abóbora",cat:"decoracao",price:49.99,old:69.90,badge:"Mais vendido",img:"https://cdn.awsli.com.br/600x450/2377/2377463/produto/171906107/1-7rkywmh9ss.jpg"},
- {id:4,name:"Varal LED de Abóboras",cat:"decoracao",price:38.90,old:49.90,badge:"Novo",img:"https://www.tjhughes.co.uk/cdn/shop/files/3a7751014787c089e66040f6d1a2fd4cf8139711_nw.jpg?v=1757068719"},
- {id:5,name:"Máscara Jason Premium",cat:"mascara",price:36.00,old:49.90,badge:"Destaque",img:"https://static1.funidelia.com/495170-f6_big2/friday-the-13th-jason-mask.jpg"},
- {id:6,name:"Máscara Bruxa Verde Realista",cat:"mascara",price:86.90,old:99.90,badge:"Premium",img:"https://images-cdn.ubuy.co.in/693b6f7b1079c1a3c00b7e68-eraspooky-witch-mask-for-women-halloween.jpg"},
- {id:7,name:"Tiara Halloween com Caveira",cat:"acessorio",price:18.90,old:24.90,badge:"Oferta",img:"https://thepartystation.com/cdn/shop/files/4040120134468_072bf7d9-05c5-42a8-aab8-bb1372ba72ea.jpg?v=1760553777&width=1500"},
- {id:8,name:"Kit Enfeites Aranha & Morcego",cat:"decoracao",price:28.90,old:39.90,badge:"Kit",img:"https://cdn.awsli.com.br/600x450/2377/2377463/produto/178882980ab93eda8e7.jpg"},
- {id:9,name:"Fantasia Mulher-Gato",cat:"fantasia",price:123.49,old:159.90,badge:"Popular",img:"https://www.halloweencostumes.com/cdn/shop/products/grand-heritage-catwoman-costume.jpg"},
- {id:10,name:"Fantasia Pennywise · Roupa + Máscara",cat:"fantasia",price:199.90,old:256.90,badge:"Destaque",img:"https://images.tcdn.com.br/img/img_prod/1116756/fantasia_it_a_coisa_masculina_adulto_de_halloween_de_luxo_com_mascara_do_palhaco_127618_1_ac970ddb7f3f3630fc4f2b8197f0194b.jpg"},
- {id:11,name:"Fantasia Fantasma Clássica",cat:"fantasia",price:119.90,old:149.90,badge:"Novo",img:"https://cdn.awsli.com.br/2500x2500/2555/2555413/produto/375239480/7fab83a636d675716cfc06b0f7c8f22a-dg7h8vrg80.jpg"},
- {id:12,name:"Enfeite Caveira com Véu & Flor",cat:"decoracao",price:56.90,old:69.90,badge:"Premium",img:"https://images.tcdn.com.br/img/img_prod/1119462/enfeite_caveira_com_veu_e_flor_halloween_72725759_1_86527f597898c4cd43259f90f67a6563.jpg"}
+{id:1,name:"Fantasia Bruxa Preta Magic",cat:"fantasia",price:149.90,old:179.90,badge:"Destaque",rating:4.9,reviews:87,img:"https://images.pexels.com/photos/5600005/pexels-photo-5600005.jpeg?cs=srgb&dl=pexels-leish-5600005.jpg&fm=jpg"},
+{id:2,name:"Fantasia Vampira Vitoriana",cat:"fantasia",price:189.90,old:229.90,badge:"Oferta",rating:4.8,reviews:64,img:"https://images.unsplash.com/photo-1572374173960-7b2b0bfc6c8d?auto=format&fit=crop&w=900&q=85"},
+{id:3,name:"Kit 30 Enfeites Halloween",cat:"decoracao",price:49.99,old:69.90,badge:"Mais vendido",rating:4.9,reviews:132,img:"https://images.unsplash.com/photo-1508361001413-7a7c6b0a6e4f?auto=format&fit=crop&w=900&q=85"},
+{id:4,name:"Varal LED de Abóboras",cat:"decoracao",price:38.90,old:49.90,badge:"Novo",rating:4.7,reviews:51,img:"https://images.unsplash.com/photo-1509557965875-b88c97052f0e?auto=format&fit=crop&w=900&q=85"},
+{id:5,name:"Máscara Jason Premium",cat:"mascara",price:36.00,old:49.90,badge:"Destaque",rating:4.8,reviews:118,img:"https://static1.funidelia.com/495170-f6_big2/friday-the-13th-jason-mask.jpg"},
+{id:6,name:"Máscara Bruxa Verde Realista",cat:"mascara",price:86.90,old:99.90,badge:"Premium",rating:4.8,reviews:43,img:"https://images.unsplash.com/photo-1505635552518-3448ff116af3?auto=format&fit=crop&w=900&q=85"},
+{id:7,name:"Tiara Halloween com Caveira",cat:"acessorio",price:18.90,old:24.90,badge:"Oferta",rating:4.7,reviews:77,img:"https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=900&q=85"},
+{id:8,name:"Kit Enfeites Aranha & Morcego",cat:"decoracao",price:28.90,old:39.90,badge:"Kit",rating:4.8,reviews:92,img:"https://images.unsplash.com/photo-1604671362029-7a6c1b6f7b5b?auto=format&fit=crop&w=900&q=85"},
+{id:9,name:"Fantasia Mulher-Gato",cat:"fantasia",price:123.49,old:159.90,badge:"Popular",rating:4.8,reviews:73,img:"https://images.unsplash.com/photo-1518709594023-6eab9bab7b23?auto=format&fit=crop&w=900&q=85"},
+{id:10,name:"Fantasia Pennywise",cat:"fantasia",price:199.90,old:256.90,badge:"Destaque",rating:4.9,reviews:105,img:"https://images.unsplash.com/photo-1504198453319-5ce911bafcde?auto=format&fit=crop&w=900&q=85"},
+{id:11,name:"Fantasia Fantasma Clássica",cat:"fantasia",price:119.90,old:149.90,badge:"Novo",rating:4.6,reviews:38,img:"https://images.unsplash.com/photo-1577083288073-40892c0860a4?auto=format&fit=crop&w=900&q=85"},
+{id:12,name:"Enfeite Caveira com Véu",cat:"decoracao",price:56.90,old:69.90,badge:"Premium",rating:4.9,reviews:29,img:"https://images.unsplash.com/photo-1505628346881-b72b27e84530?auto=format&fit=crop&w=900&q=85"},
+{id:13,name:"Capa Vampiro Premium",cat:"fantasia",price:89.90,old:119.90,badge:"Novo",rating:4.8,reviews:61,img:"https://images.unsplash.com/photo-1605117882932-f9e32b03fea9?auto=format&fit=crop&w=900&q=85"},
+{id:14,name:"Chapéu de Bruxa Premium",cat:"acessorio",price:34.90,old:44.90,badge:"Favorito",rating:4.9,reviews:144,img:"https://images.unsplash.com/photo-1603366615917-1fa6dad5c4fa?auto=format&fit=crop&w=900&q=85"},
+{id:15,name:"Lanterna LED Abóbora",cat:"decoracao",price:44.90,old:59.90,badge:"Novo",rating:4.8,reviews:82,img:"https://images.unsplash.com/photo-1604856420566-576c98f9e9f4?auto=format&fit=crop&w=900&q=85"},
+{id:16,name:"Máscara Caveira Dark",cat:"mascara",price:39.90,old:54.90,badge:"Oferta",rating:4.7,reviews:54,img:"https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=900&q=85"},
+{id:17,name:"Colar Choker Gótico",cat:"acessorio",price:29.90,old:39.90,badge:"Best seller",rating:4.9,reviews:176,img:"https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=900&q=85"},
+{id:18,name:"Luz Neon Ghost",cat:"decoracao",price:79.90,old:99.90,badge:"Premium",rating:4.8,reviews:46,img:"https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=900&q=85"},
+{id:19,name:"Kit Presilhas Morcego",cat:"acessorio",price:24.90,old:32.90,badge:"Oferta",rating:4.8,reviews:71,img:"https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=900&q=85"},
+{id:20,name:"Fantasia Rainha Sombria",cat:"fantasia",price:169.90,old:219.90,badge:"Premium",rating:4.9,reviews:39,img:"https://images.pexels.com/photos/5600071/pexels-photo-5600071.jpeg?cs=srgb&dl=pexels-leish-5600071.jpg&fm=jpg"},
+{id:21,name:"Castiçal Gótico 3 Braços",cat:"decoracao",price:64.90,old:84.90,badge:"Destaque",rating:4.8,reviews:67,img:"https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=900&q=85"},
+{id:22,name:"Máscara Fantasma Branca",cat:"mascara",price:24.90,old:34.90,badge:"Oferta",rating:4.7,reviews:101,img:"https://images.unsplash.com/photo-1505635552518-3448ff116af3?auto=format&fit=crop&w=900&q=85"},
+{id:23,name:"Capa com Capuz Sombria",cat:"fantasia",price:79.90,old:99.90,badge:"Novo",rating:4.8,reviews:48,img:"https://images.unsplash.com/photo-1572374173960-7b2b0bfc6c8d?auto=format&fit=crop&w=900&q=85"},
+{id:24,name:"Kit 6 Velas LED",cat:"decoracao",price:32.90,old:44.90,badge:"Kit",rating:4.9,reviews:120,img:"https://images.unsplash.com/photo-1602874801006-e26d2e17bfa0?auto=format&fit=crop&w=900&q=85"}
 ];
-let active="todos",cart=[];
+
 const brl=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-function filter(cat,btn){active=cat;if(btn){document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('active'));btn.classList.add('active')}render()}
+let active='todos', cart=JSON.parse(localStorage.getItem('spooky_cart')||'[]'), wishlist=JSON.parse(localStorage.getItem('spooky_wishlist')||'[]'), coupon=0, shipping=0;
+
+function save(){localStorage.setItem('spooky_cart',JSON.stringify(cart));localStorage.setItem('spooky_wishlist',JSON.stringify(wishlist))}
+function setFilter(cat,btn){
+ active=cat;
+ document.querySelectorAll('.filter').forEach(x=>x.classList.toggle('active',x.dataset.filter===cat));
+ render();
+ if(location.hash!=='#colecao') setTimeout(()=>document.getElementById('colecao').scrollIntoView({behavior:'smooth'}),20);
+}
+function filtered(){
+ const q=(document.getElementById('search')?.value||'').trim().toLowerCase();
+ let arr=products.filter(p=>(active==='todos'||p.cat===active)&&p.name.toLowerCase().includes(q));
+ const sort=document.getElementById('sort')?.value||'featured';
+ if(sort==='low')arr.sort((a,b)=>a.price-b.price);
+ if(sort==='high')arr.sort((a,b)=>b.price-a.price);
+ if(sort==='discount')arr.sort((a,b)=>((b.old-b.price)/b.old)-((a.old-a.price)/a.old));
+ return arr;
+}
 function render(){
- const q=document.getElementById('search').value.toLowerCase();
- const list=products.filter(p=>(active==='todos'||p.cat===active)&&p.name.toLowerCase().includes(q));
- document.getElementById('grid').innerHTML=list.map(p=>`<article class="product">
- <div class="product-img" style="background-image:url('${p.img}')"><span class="tag">${p.badge}</span></div>
- <div class="product-body"><div class="stars">★★★★★</div><h3>${p.name}</h3><div class="price"><span class="old">${brl(p.old)}</span>${brl(p.price)}</div><button class="add" onclick="add(${p.id})">Adicionar ao carrinho</button></div></article>`).join('')||'<p style="color:#777">Nenhum produto encontrado.</p>';
+ const arr=filtered();document.getElementById('countText').textContent=`${arr.length} produtos`;
+ document.getElementById('grid').innerHTML=arr.length?arr.map((p,i)=>`
+ <article class="product reveal show" style="transition-delay:${Math.min(i*20,160)}ms">
+  <div class="product-image" style="background-image:url('${p.img}')">
+   <span class="product-tag">${p.badge}</span>
+   <button class="wish ${wishlist.includes(p.id)?'active':''}" aria-label="Favoritar" onclick="toggleWish(${p.id})">${wishlist.includes(p.id)?'♥':'♡'}</button>
+   <button class="quick" onclick="quick(${p.id})" aria-label="Visualizar">↗</button>
+  </div>
+  <div class="product-info">
+   <div class="stars">★★★★★ <span class="reviews">(${p.reviews})</span></div>
+   <div class="product-name">${p.name}</div>
+   <div class="price-row"><span class="price">${brl(p.price)}</span><span class="old">${brl(p.old)}</span></div>
+   <button class="add" onclick="add(${p.id})">Adicionar ao carrinho</button>
+  </div>
+ </article>`).join(''):`<div class="empty">Nenhum produto encontrado.<br><button class="btn dark" style="margin-top:15px" onclick="setFilter('todos')">Ver todos</button></div>`;
 }
-function add(id){cart.push(id);updateCart();openCart()}
+function toggleWish(id){
+ wishlist=wishlist.includes(id)?wishlist.filter(x=>x!==id):[...wishlist,id];save();updateBadges();render();toast(wishlist.includes(id)?'Adicionado aos favoritos':'Removido dos favoritos');
+}
+function showWishlist(){
+ if(!wishlist.length){toast('Você ainda não tem favoritos');return}
+ active='todos';document.getElementById('search').value='';
+ document.getElementById('grid').innerHTML=products.filter(p=>wishlist.includes(p.id)).map(p=>`
+ <article class="product"><div class="product-image" style="background-image:url('${p.img}')"><span class="product-tag">Favorito</span><button class="wish active" onclick="toggleWish(${p.id})">♥</button><button class="quick" onclick="quick(${p.id})">↗</button></div><div class="product-info"><div class="stars">★★★★★ <span class="reviews">(${p.reviews})</span></div><div class="product-name">${p.name}</div><div class="price-row"><span class="price">${brl(p.price)}</span><span class="old">${brl(p.old)}</span></div><button class="add" onclick="add(${p.id})">Adicionar ao carrinho</button></div></article>`).join('');
+ document.getElementById('countText').textContent=`${wishlist.length} favoritos`;
+ document.getElementById('colecao').scrollIntoView({behavior:'smooth'});
+}
+function add(id){
+ cart.push(id);save();updateCart();openCart();toast('Produto adicionado ao carrinho');
+}
+function removeOne(id){
+ const i=cart.indexOf(id);if(i>-1)cart.splice(i,1);save();updateCart();
+}
+function updateBadges(){
+ document.getElementById('cartCount').textContent=cart.length;
+ document.getElementById('wishCount').textContent=wishlist.length;
+}
 function updateCart(){
- document.getElementById('count').textContent=cart.length;
- const box=document.getElementById('cartitems');
- if(!cart.length){box.innerHTML='<div class="empty">Seu carrinho está vazio.<br>Escolha algo para a noite. 🎃</div>';document.getElementById('total').textContent='R$ 0,00';return}
- const counts={};cart.forEach(id=>counts[id]=(counts[id]||0)+1);
- box.innerHTML=Object.entries(counts).map(([id,n])=>{const p=products.find(x=>x.id==id);return `<div class="cartitem"><div class="thumb" style="background-image:url('${p.img}')"></div><div><strong>${p.name}</strong><div class="qty">${n} × ${brl(p.price)}</div></div><strong>${brl(p.price*n)}</strong></div>`}).join('');
- document.getElementById('total').textContent=brl(cart.reduce((s,id)=>s+products.find(p=>p.id===id).price,0));
+ updateBadges();
+ const list=document.getElementById('cartList');
+ if(!cart.length){list.innerHTML='<div class="empty" style="padding:45px 10px">Seu carrinho está vazio.<br>Comece a escolher seus favoritos. 🎃</div>';shipping=0}
+ else{
+  const map={};cart.forEach(id=>map[id]=(map[id]||0)+1);
+  list.innerHTML=Object.entries(map).map(([id,qty])=>{const p=products.find(x=>x.id==id);return `<div class="cart-row"><div class="cart-thumb" style="background-image:url('${p.img}')"></div><div><div class="cart-name">${p.name}</div><div class="cart-price">${brl(p.price)}</div><div class="qty"><button onclick="removeOne(${p.id})">−</button><span>${qty}</span><button onclick="add(${p.id})">+</button></div></div><button class="cart-remove" onclick="removeAll(${p.id})">remover</button></div>`}).join('');
+ }
+ const sub=cart.reduce((s,id)=>s+products.find(p=>p.id===id).price,0);
+ const disc=coupon?sub*.1:0;
+ const ship=shipping|| (sub>=199&&sub>0?0:null);
+ document.getElementById('subtotal').textContent=brl(sub);
+ document.getElementById('discount').textContent=disc?`− ${brl(disc)}`:'R$ 0,00';
+ document.getElementById('shipping').textContent=ship===null?'A calcular':(ship===0?'Grátis':brl(ship));
+ document.getElementById('total').textContent=brl(Math.max(0,sub-disc+(ship||0)));
 }
-function openCart(){document.getElementById('drawer').classList.add('open');updateCart()}
-function closeCart(){document.getElementById('drawer').classList.remove('open')}
-function checkout(){alert('Checkout demonstrativo. Na próxima etapa podemos conectar Mercado Pago, PantePay ou outro gateway.');}
-render();
+function removeAll(id){cart=cart.filter(x=>x!==id);save();updateCart()}
+function openCart(){document.getElementById('cartBackdrop').classList.add('open');document.body.classList.add('lock');updateCart()}
+function closeCart(){document.getElementById('cartBackdrop').classList.remove('open');document.body.classList.remove('lock')}
+function applyCoupon(){
+ const v=document.getElementById('coupon').value.trim().toUpperCase();
+ if(v==='SPOOKY10'){coupon=1;toast('Cupom SPOOKY10 aplicado · 10% OFF')}
+ else{coupon=0;toast('Cupom inválido')}
+ updateCart();
+}
+function calcShipping(){
+ const cep=document.getElementById('cep').value.replace(/\D/g,'');
+ if(cep.length!==8){document.getElementById('shipMsg').textContent='Digite um CEP válido com 8 números.';return}
+ const sub=cart.reduce((s,id)=>s+products.find(p=>p.id===id).price,0);
+ shipping=sub>=199?0:19.90;document.getElementById('shipMsg').textContent=shipping===0?'Frete grátis para este pedido.':'Frete estimado: R$ 19,90';
+ updateCart();
+}
+function quick(id){
+ const p=products.find(x=>x.id===id);if(!p)return;
+ document.getElementById('modalImg').style.backgroundImage=`url('${p.img}')`;
+ document.getElementById('modalTag').textContent=p.badge;
+ document.getElementById('modalName').textContent=p.name;
+ document.getElementById('modalPrice').innerHTML=`${brl(p.price)} <span class="old">${brl(p.old)}</span>`;
+ document.getElementById('modalDesc').textContent='Uma escolha da curadoria Spooky Store para completar seu Halloween. Confira as opções disponíveis e adicione ao carrinho.';
+ document.getElementById('modalAdd').onclick=()=>{add(id);closeModal()};
+ document.getElementById('modalBackdrop').classList.add('open');document.getElementById('modalWrap').classList.add('open');document.body.classList.add('lock');
+}
+function closeModal(){document.getElementById('modalBackdrop').classList.remove('open');document.getElementById('modalWrap').classList.remove('open');document.body.classList.remove('lock')}
+function checkout(){
+ if(!cart.length){toast('Adicione pelo menos um produto');return}
+ toast('Checkout demonstrativo — pronto para conectar ao seu gateway');
+}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove('show'),2300)}
+function focusSearch(){document.getElementById('search').focus();document.getElementById('colecao').scrollIntoView({behavior:'smooth'})}
+function toggleMobile(){
+ const links=document.querySelector('.navlinks');links.classList.toggle('mobile-open');
+}
+document.querySelectorAll('.navlinks a').forEach(a=>a.addEventListener('click',()=>document.querySelector('.navlinks').classList.remove('mobile-open')));
+function hideCookie(){document.getElementById('cookie').classList.remove('show');localStorage.setItem('spooky_cookie','1')}
+function acceptCookie(){hideCookie()}
+
+document.querySelectorAll('.faq-q').forEach(btn=>btn.addEventListener('click',()=>btn.parentElement.classList.toggle('open')));
+window.addEventListener('scroll',()=>{
+ const h=document.documentElement.scrollHeight-innerHeight;
+ document.getElementById('progress').style.width=(h>0?(scrollY/h)*100:0)+'%';
+ document.getElementById('header').classList.toggle('scrolled',scrollY>15);
+},{passive:true});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCart();closeModal()}});
+const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
+document.getElementById('search').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('colecao').scrollIntoView({behavior:'smooth'})});
+if(!localStorage.getItem('spooky_cookie'))setTimeout(()=>document.getElementById('cookie').classList.add('show'),1800);
+updateBadges();render();updateCart();
 </script>
 </body>
 </html>
