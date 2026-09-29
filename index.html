@@ -157,9 +157,41 @@ footer{border-top:1px solid var(--line);padding:60px 0 28px;background:#050505}.
  .navlinks.mobile-open a:last-child{border-bottom:0}
 }
 
+
+/* ===== SPOOKY INTERACTIVE EXPERIENCE ===== */
+.spooky-atmosphere{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden;opacity:.8}
+.spooky-atmosphere:before{content:"";position:absolute;inset:auto -15% -20% -15%;height:42%;background:radial-gradient(ellipse at center,rgba(255,106,0,.055),transparent 68%);filter:blur(35px);animation:mistDrift 14s ease-in-out infinite alternate}
+.spooky-vignette{position:fixed;inset:0;pointer-events:none;z-index:3;box-shadow:inset 0 0 180px rgba(0,0,0,.34)}
+.bat{position:absolute;font-size:20px;filter:drop-shadow(0 0 8px rgba(255,106,0,.18));opacity:0;animation:batFly linear forwards}
+.bat:nth-child(1){top:17%;animation-duration:12s;animation-delay:1s}.bat:nth-child(2){top:29%;animation-duration:16s;animation-delay:5s;font-size:15px}.bat:nth-child(3){top:62%;animation-duration:19s;animation-delay:9s;font-size:25px}.bat:nth-child(4){top:78%;animation-duration:14s;animation-delay:2s;font-size:13px}
+.spider-web{position:absolute;top:-4px;right:5%;width:130px;height:155px;opacity:.16}.spider-web:before,.spider-web:after{content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,.55);border-radius:50%;transform:rotate(28deg)}.spider-web:after{transform:rotate(-28deg);border-radius:50%}
+.spider-web i{position:absolute;left:50%;top:0;height:155px;width:1px;background:rgba(255,255,255,.4);transform-origin:top}
+.spider-web i:nth-child(1){transform:rotate(60deg)}.spider-web i:nth-child(2){transform:rotate(-60deg)}.spider-web i:nth-child(3){transform:rotate(30deg)}.spider-web i:nth-child(4){transform:rotate(-30deg)}
+.cursor-orb{position:fixed;z-index:9999;width:9px;height:9px;border-radius:50%;background:var(--orange);box-shadow:0 0 18px rgba(255,106,0,.8);pointer-events:none;transform:translate(-50%,-50%);opacity:0;transition:opacity .2s}
+.spark{position:fixed;z-index:9998;width:4px;height:4px;border-radius:50%;background:var(--orange2);pointer-events:none;animation:sparkOut .65s ease-out forwards}
+.halloween-toast{position:fixed;left:50%;bottom:28px;z-index:10001;transform:translate(-50%,25px);opacity:0;pointer-events:none;background:rgba(15,15,15,.92);border:1px solid rgba(255,106,0,.28);box-shadow:0 20px 60px rgba(0,0,0,.45),0 0 35px rgba(255,106,0,.08);backdrop-filter:blur(18px);padding:13px 17px;border-radius:15px;color:#eee;font-size:12px;transition:.35s var(--ease);white-space:nowrap}.halloween-toast.show{opacity:1;transform:translate(-50%,0)}
+.brandmark.spooky-pulse{animation:brandPulse .65s ease}.hero-media.spooky-shake{animation:spookyShake .6s ease}
+.product,.category,.hero-media,.btn,.icon{will-change:transform}
+.product:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.06) 48%,transparent 61%);transform:translateX(-120%);transition:transform .8s var(--ease)}.product:hover:after{transform:translateX(120%)}
+@keyframes batFly{0%{transform:translateX(-15vw) translateY(15px) rotate(-5deg);opacity:0}10%{opacity:.65}50%{transform:translateX(55vw) translateY(-35px) rotate(7deg);opacity:.7}90%{opacity:.25}100%{transform:translateX(120vw) translateY(20px) rotate(-3deg);opacity:0}}
+@keyframes mistDrift{from{transform:translateX(-3%) scale(1)}to{transform:translateX(5%) scale(1.08)}}
+@keyframes sparkOut{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+@keyframes brandPulse{50%{transform:scale(1.18) rotate(-8deg);box-shadow:0 0 40px rgba(255,106,0,.65)}}
+@keyframes spookyShake{20%,60%{transform:translateX(-3px)}40%,80%{transform:translateX(3px)}}
+@media (pointer:coarse){.cursor-orb{display:none}.spooky-atmosphere{opacity:.52}.bat{animation-duration:20s!important}}
+@media (prefers-reduced-motion:reduce){.bat,.spooky-atmosphere:before{animation:none!important}.product:after{display:none}.cursor-orb{display:none}}
+
 </style>
 </head>
 <body>
+<div class="spooky-atmosphere" aria-hidden="true">
+  <span class="bat">🦇</span><span class="bat">🦇</span><span class="bat">🦇</span><span class="bat">🦇</span>
+  <div class="spider-web"><i></i><i></i><i></i><i></i></div>
+</div>
+<div class="spooky-vignette" aria-hidden="true"></div>
+<div class="cursor-orb" id="cursorOrb" aria-hidden="true"></div>
+<div class="halloween-toast" id="halloweenToast" aria-live="polite"></div>
+
 <div class="progress" id="progress"></div>
 
 <div class="announcement">🎃 <b>HALLOWEEN 2026</b>&nbsp; · &nbsp;FRETE GRÁTIS ACIMA DE R$ 199&nbsp; · &nbsp;ATÉ 6X NO CARTÃO</div>
@@ -205,9 +237,9 @@ footer{border-top:1px solid var(--line);padding:60px 0 28px;background:#050505}.
   <div class="section-head"><div><div class="eyebrow">Escolha a atmosfera</div><h2 class="section-title">Explore por categoria.</h2></div><p class="section-desc">Comece pelo que você precisa e monte o resto do seu Halloween a partir daí.</p></div>
   <div class="categories">
     <a class="category reveal" href="#colecao" onclick="setFilter('fantasia')" style="background-image:url('https://images.pexels.com/photos/5600005/pexels-photo-5600005.jpeg?cs=srgb&dl=pexels-leish-5600005.jpg&fm=jpg')"><div class="category-content"><span>🧙</span><h3>Fantasias</h3><p>Do clássico ao diferente.</p></div></a>
-    <a class="category reveal" href="#colecao" onclick="setFilter('decoracao')" style="background-image:url('https://images.unsplash.com/photo-1508361001413-7a7c6b0a6e4f?auto=format&fit=crop&w=1000&q=85')"><div class="category-content"><span>🎃</span><h3>Decoração</h3><p>Crie o cenário.</p></div></a>
-    <a class="category reveal" href="#colecao" onclick="setFilter('acessorio')" style="background-image:url('https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1000&q=85')"><div class="category-content"><span>🕸️</span><h3>Acessórios</h3><p>O detalhe final.</p></div></a>
-    <a class="category reveal" href="#colecao" onclick="setFilter('mascara')" style="background-image:url('https://images.unsplash.com/photo-1505635552518-3448ff116af3?auto=format&fit=crop&w=1000&q=85')"><div class="category-content"><span>🎭</span><h3>Máscaras</h3><p>Vista o personagem.</p></div></a>
+    <a class="category reveal" href="#colecao" onclick="setFilter('decoracao')" style="background-image:url('https://images.pexels.com/photos/10113123/pexels-photo-10113123.jpeg?auto=compress&cs=tinysrgb&w=1200')"><div class="category-content"><span>🎃</span><h3>Decoração</h3><p>Crie o cenário.</p></div></a>
+    <a class="category reveal" href="#colecao" onclick="setFilter('acessorio')" style="background-image:url('https://images.pexels.com/photos/9740338/pexels-photo-9740338.jpeg?auto=compress&cs=tinysrgb&w=1200')"><div class="category-content"><span>🕸️</span><h3>Acessórios</h3><p>O detalhe final.</p></div></a>
+    <a class="category reveal" href="#colecao" onclick="setFilter('mascara')" style="background-image:url('https://images.pexels.com/photos/12725754/pexels-photo-12725754.jpeg?auto=compress&cs=tinysrgb&w=1200')"><div class="category-content"><span>🎭</span><h3>Máscaras</h3><p>Vista o personagem.</p></div></a>
   </div>
 </section>
 
@@ -307,30 +339,30 @@ footer{border-top:1px solid var(--line);padding:60px 0 28px;background:#050505}.
 
 <script>
 const products=[
-{id:1,name:"Fantasia Bruxa Preta Magic",cat:"fantasia",price:149.90,old:179.90,badge:"Destaque",rating:4.9,reviews:87,img:"https://images.pexels.com/photos/5600005/pexels-photo-5600005.jpeg?cs=srgb&dl=pexels-leish-5600005.jpg&fm=jpg"},
-{id:2,name:"Fantasia Vampira Vitoriana",cat:"fantasia",price:189.90,old:229.90,badge:"Oferta",rating:4.8,reviews:64,img:"https://images.unsplash.com/photo-1572374173960-7b2b0bfc6c8d?auto=format&fit=crop&w=900&q=85"},
-{id:3,name:"Kit 30 Enfeites Halloween",cat:"decoracao",price:49.99,old:69.90,badge:"Mais vendido",rating:4.9,reviews:132,img:"https://images.unsplash.com/photo-1508361001413-7a7c6b0a6e4f?auto=format&fit=crop&w=900&q=85"},
-{id:4,name:"Varal LED de Abóboras",cat:"decoracao",price:38.90,old:49.90,badge:"Novo",rating:4.7,reviews:51,img:"https://images.unsplash.com/photo-1509557965875-b88c97052f0e?auto=format&fit=crop&w=900&q=85"},
-{id:5,name:"Máscara Jason Premium",cat:"mascara",price:36.00,old:49.90,badge:"Destaque",rating:4.8,reviews:118,img:"https://static1.funidelia.com/495170-f6_big2/friday-the-13th-jason-mask.jpg"},
-{id:6,name:"Máscara Bruxa Verde Realista",cat:"mascara",price:86.90,old:99.90,badge:"Premium",rating:4.8,reviews:43,img:"https://images.unsplash.com/photo-1505635552518-3448ff116af3?auto=format&fit=crop&w=900&q=85"},
-{id:7,name:"Tiara Halloween com Caveira",cat:"acessorio",price:18.90,old:24.90,badge:"Oferta",rating:4.7,reviews:77,img:"https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=900&q=85"},
-{id:8,name:"Kit Enfeites Aranha & Morcego",cat:"decoracao",price:28.90,old:39.90,badge:"Kit",rating:4.8,reviews:92,img:"https://images.unsplash.com/photo-1604671362029-7a6c1b6f7b5b?auto=format&fit=crop&w=900&q=85"},
-{id:9,name:"Fantasia Mulher-Gato",cat:"fantasia",price:123.49,old:159.90,badge:"Popular",rating:4.8,reviews:73,img:"https://images.unsplash.com/photo-1518709594023-6eab9bab7b23?auto=format&fit=crop&w=900&q=85"},
-{id:10,name:"Fantasia Pennywise",cat:"fantasia",price:199.90,old:256.90,badge:"Destaque",rating:4.9,reviews:105,img:"https://images.unsplash.com/photo-1504198453319-5ce911bafcde?auto=format&fit=crop&w=900&q=85"},
-{id:11,name:"Fantasia Fantasma Clássica",cat:"fantasia",price:119.90,old:149.90,badge:"Novo",rating:4.6,reviews:38,img:"https://images.unsplash.com/photo-1577083288073-40892c0860a4?auto=format&fit=crop&w=900&q=85"},
-{id:12,name:"Enfeite Caveira com Véu",cat:"decoracao",price:56.90,old:69.90,badge:"Premium",rating:4.9,reviews:29,img:"https://images.unsplash.com/photo-1505628346881-b72b27e84530?auto=format&fit=crop&w=900&q=85"},
-{id:13,name:"Capa Vampiro Premium",cat:"fantasia",price:89.90,old:119.90,badge:"Novo",rating:4.8,reviews:61,img:"https://images.unsplash.com/photo-1605117882932-f9e32b03fea9?auto=format&fit=crop&w=900&q=85"},
-{id:14,name:"Chapéu de Bruxa Premium",cat:"acessorio",price:34.90,old:44.90,badge:"Favorito",rating:4.9,reviews:144,img:"https://images.unsplash.com/photo-1603366615917-1fa6dad5c4fa?auto=format&fit=crop&w=900&q=85"},
-{id:15,name:"Lanterna LED Abóbora",cat:"decoracao",price:44.90,old:59.90,badge:"Novo",rating:4.8,reviews:82,img:"https://images.unsplash.com/photo-1604856420566-576c98f9e9f4?auto=format&fit=crop&w=900&q=85"},
-{id:16,name:"Máscara Caveira Dark",cat:"mascara",price:39.90,old:54.90,badge:"Oferta",rating:4.7,reviews:54,img:"https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=900&q=85"},
-{id:17,name:"Colar Choker Gótico",cat:"acessorio",price:29.90,old:39.90,badge:"Best seller",rating:4.9,reviews:176,img:"https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=900&q=85"},
-{id:18,name:"Luz Neon Ghost",cat:"decoracao",price:79.90,old:99.90,badge:"Premium",rating:4.8,reviews:46,img:"https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=900&q=85"},
-{id:19,name:"Kit Presilhas Morcego",cat:"acessorio",price:24.90,old:32.90,badge:"Oferta",rating:4.8,reviews:71,img:"https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=900&q=85"},
-{id:20,name:"Fantasia Rainha Sombria",cat:"fantasia",price:169.90,old:219.90,badge:"Premium",rating:4.9,reviews:39,img:"https://images.pexels.com/photos/5600071/pexels-photo-5600071.jpeg?cs=srgb&dl=pexels-leish-5600071.jpg&fm=jpg"},
-{id:21,name:"Castiçal Gótico 3 Braços",cat:"decoracao",price:64.90,old:84.90,badge:"Destaque",rating:4.8,reviews:67,img:"https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=900&q=85"},
-{id:22,name:"Máscara Fantasma Branca",cat:"mascara",price:24.90,old:34.90,badge:"Oferta",rating:4.7,reviews:101,img:"https://images.unsplash.com/photo-1505635552518-3448ff116af3?auto=format&fit=crop&w=900&q=85"},
-{id:23,name:"Capa com Capuz Sombria",cat:"fantasia",price:79.90,old:99.90,badge:"Novo",rating:4.8,reviews:48,img:"https://images.unsplash.com/photo-1572374173960-7b2b0bfc6c8d?auto=format&fit=crop&w=900&q=85"},
-{id:24,name:"Kit 6 Velas LED",cat:"decoracao",price:32.90,old:44.90,badge:"Kit",rating:4.9,reviews:120,img:"https://images.unsplash.com/photo-1602874801006-e26d2e17bfa0?auto=format&fit=crop&w=900&q=85"}
+{id:1,name:"Fantasia Bruxa Preta Magic",cat:"fantasia",price:149.90,old:179.90,badge:"Destaque",rating:4.9,reviews:87,img:"https://images.pexels.com/photos/5600005/pexels-photo-5600005.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:2,name:"Fantasia Vampira Vitoriana",cat:"fantasia",price:189.90,old:229.90,badge:"Oferta",rating:4.8,reviews:64,img:"https://images.pexels.com/photos/20485655/pexels-photo-20485655.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:3,name:"Kit 30 Enfeites Halloween",cat:"decoracao",price:49.99,old:69.90,badge:"Mais vendido",rating:4.9,reviews:132,img:"https://images.pexels.com/photos/5477530/pexels-photo-5477530.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:4,name:"Varal LED de Abóboras",cat:"decoracao",price:38.90,old:49.90,badge:"Novo",rating:4.7,reviews:51,img:"https://images.pexels.com/photos/6495932/pexels-photo-6495932.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:5,name:"Máscara Jason Premium",cat:"mascara",price:36.00,old:49.90,badge:"Destaque",rating:4.8,reviews:118,img:"https://images.pexels.com/photos/12725754/pexels-photo-12725754.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:6,name:"Máscara Bruxa Verde Realista",cat:"mascara",price:86.90,old:99.90,badge:"Premium",rating:4.8,reviews:43,img:"https://images.pexels.com/photos/29344308/pexels-photo-29344308.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:7,name:"Tiara Halloween com Caveira",cat:"acessorio",price:18.90,old:24.90,badge:"Oferta",rating:4.7,reviews:77,img:"https://images.pexels.com/photos/9740338/pexels-photo-9740338.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:8,name:"Kit Enfeites Aranha & Morcego",cat:"decoracao",price:28.90,old:39.90,badge:"Kit",rating:4.8,reviews:92,img:"https://images.pexels.com/photos/5477591/pexels-photo-5477591.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:9,name:"Fantasia Mulher-Gato",cat:"fantasia",price:123.49,old:159.90,badge:"Popular",rating:4.8,reviews:73,img:"https://images.pexels.com/photos/5600063/pexels-photo-5600063.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:10,name:"Fantasia Pennywise",cat:"fantasia",price:199.90,old:256.90,badge:"Destaque",rating:4.9,reviews:105,img:"https://images.pexels.com/photos/13070402/pexels-photo-13070402.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:11,name:"Fantasia Fantasma Clássica",cat:"fantasia",price:119.90,old:149.90,badge:"Novo",rating:4.6,reviews:38,img:"https://images.pexels.com/photos/14023737/pexels-photo-14023737.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:12,name:"Enfeite Caveira com Véu",cat:"decoracao",price:56.90,old:69.90,badge:"Premium",rating:4.9,reviews:29,img:"https://images.pexels.com/photos/14009001/pexels-photo-14009001.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:13,name:"Capa Vampiro Premium",cat:"fantasia",price:89.90,old:119.90,badge:"Novo",rating:4.8,reviews:61,img:"https://images.pexels.com/photos/14241337/pexels-photo-14241337.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:14,name:"Chapéu de Bruxa Premium",cat:"acessorio",price:34.90,old:44.90,badge:"Favorito",rating:4.9,reviews:144,img:"https://images.pexels.com/photos/27914105/pexels-photo-27914105.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:15,name:"Lanterna LED Abóbora",cat:"decoracao",price:44.90,old:59.90,badge:"Novo",rating:4.8,reviews:82,img:"https://images.pexels.com/photos/14562304/pexels-photo-14562304.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:16,name:"Máscara Caveira Dark",cat:"mascara",price:39.90,old:54.90,badge:"Oferta",rating:4.7,reviews:54,img:"https://images.pexels.com/photos/29030549/pexels-photo-29030549.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:17,name:"Colar Choker Gótico",cat:"acessorio",price:29.90,old:39.90,badge:"Best seller",rating:4.9,reviews:176,img:"https://images.pexels.com/photos/9740338/pexels-photo-9740338.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:18,name:"Luz Neon Ghost",cat:"decoracao",price:79.90,old:99.90,badge:"Premium",rating:4.8,reviews:46,img:"https://images.pexels.com/photos/18884940/pexels-photo-18884940.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:19,name:"Kit Presilhas Morcego",cat:"acessorio",price:24.90,old:32.90,badge:"Oferta",rating:4.8,reviews:71,img:"https://images.pexels.com/photos/33815324/pexels-photo-33815324.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:20,name:"Fantasia Rainha Sombria",cat:"fantasia",price:169.90,old:219.90,badge:"Premium",rating:4.9,reviews:39,img:"https://images.pexels.com/photos/5600071/pexels-photo-5600071.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:21,name:"Castiçal Gótico 3 Braços",cat:"decoracao",price:64.90,old:84.90,badge:"Destaque",rating:4.8,reviews:67,img:"https://images.pexels.com/photos/10113123/pexels-photo-10113123.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:22,name:"Máscara Fantasma Branca",cat:"mascara",price:24.90,old:34.90,badge:"Oferta",rating:4.7,reviews:101,img:"https://images.pexels.com/photos/29344308/pexels-photo-29344308.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:23,name:"Capa com Capuz Sombria",cat:"fantasia",price:79.90,old:99.90,badge:"Novo",rating:4.8,reviews:48,img:"https://images.pexels.com/photos/5407942/pexels-photo-5407942.jpeg?auto=compress&cs=tinysrgb&w=1200"},
+{id:24,name:"Kit 6 Velas LED",cat:"decoracao",price:32.90,old:44.90,badge:"Kit",rating:4.9,reviews:120,img:"https://images.pexels.com/photos/14059510/pexels-photo-14059510.jpeg?auto=compress&cs=tinysrgb&w=1200"}
 ];
 
 const brl=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
@@ -458,6 +490,72 @@ document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
 document.getElementById('search').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('colecao').scrollIntoView({behavior:'smooth'})});
 if(!localStorage.getItem('spooky_cookie'))setTimeout(()=>document.getElementById('cookie').classList.add('show'),1800);
 updateBadges();render();updateCart();
+
+
+/* ===== SPOOKY MICRO-INTERACTIONS ===== */
+(function(){
+  const orb=document.getElementById('cursorOrb');
+  const toastEl=document.getElementById('halloweenToast');
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let lastSpark=0, brandClicks=0, brandTimer;
+  function spookyToast(msg){
+    toastEl.textContent=msg; toastEl.classList.add('show');
+    clearTimeout(window.__spookyToast); window.__spookyToast=setTimeout(()=>toastEl.classList.remove('show'),2400);
+  }
+  window.spookyToast=spookyToast;
+  if(!reduce && window.matchMedia('(pointer:fine)').matches){
+    document.addEventListener('pointermove',e=>{
+      orb.style.left=e.clientX+'px'; orb.style.top=e.clientY+'px'; orb.style.opacity='1';
+      const now=performance.now();
+      if(now-lastSpark>85 && (Math.abs(e.movementX)+Math.abs(e.movementY)>5)){
+        lastSpark=now;
+        const s=document.createElement('i'); s.className='spark'; s.style.left=e.clientX+'px'; s.style.top=e.clientY+'px';
+        s.style.setProperty('--dx',(Math.random()*18-9)+'px'); s.style.setProperty('--dy',(Math.random()*18-9)+'px');
+        document.body.appendChild(s); setTimeout(()=>s.remove(),700);
+      }
+    },{passive:true});
+    document.addEventListener('pointerleave',()=>orb.style.opacity='0');
+  }
+  document.querySelectorAll('.btn.primary').forEach(btn=>btn.addEventListener('click',()=>{
+    if(reduce)return;
+    const r=btn.getBoundingClientRect();
+    for(let i=0;i<7;i++){
+      const s=document.createElement('i'); s.className='spark'; s.style.left=(r.left+r.width/2)+'px'; s.style.top=(r.top+r.height/2)+'px';
+      s.style.setProperty('--dx',(Math.random()*90-45)+'px'); s.style.setProperty('--dy',(Math.random()*70-35)+'px');
+      document.body.appendChild(s); setTimeout(()=>s.remove(),700);
+    }
+  }));
+  const brand=document.querySelector('.brandmark');
+  if(brand){brand.addEventListener('click',()=>{
+    brandClicks++; brand.classList.remove('spooky-pulse'); void brand.offsetWidth; brand.classList.add('spooky-pulse');
+    clearTimeout(brandTimer); brandTimer=setTimeout(()=>brandClicks=0,1800);
+    if(brandClicks>=5){brandClicks=0; spookyToast('🦇 Você encontrou o segredo da Spooky Store. Código: SPOOKY10');
+      try{navigator.clipboard?.writeText('SPOOKY10')}catch(e){}
+    }
+  });}
+  document.querySelectorAll('.product').forEach(card=>{
+    card.addEventListener('pointermove',e=>{
+      if(reduce || !window.matchMedia('(pointer:fine)').matches)return;
+      const r=card.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+      card.style.transform=`perspective(900px) rotateX(${(-y*2.4).toFixed(2)}deg) rotateY(${(x*2.8).toFixed(2)}deg) translateY(-4px)`;
+    });
+    card.addEventListener('pointerleave',()=>card.style.transform='');
+  });
+  const hero=document.querySelector('.hero-media');
+  if(hero && !reduce){
+    let idle;
+    const wake=()=>{clearTimeout(idle);idle=setTimeout(()=>{hero.classList.remove('spooky-shake');void hero.offsetWidth;hero.classList.add('spooky-shake')},12000)};
+    ['pointermove','pointerdown','touchstart'].forEach(ev=>hero.addEventListener(ev,wake,{passive:true})); wake();
+  }
+  const originalAdd=window.add;
+  if(typeof originalAdd==='function'){
+    window.add=function(id){ originalAdd(id); if(typeof spookyToast==='function'){const p=products.find(x=>x.id===id); if(p) spookyToast('🎃 '+p.name+' foi para o seu carrinho');} };
+  }
+  document.addEventListener('keydown',e=>{
+    if(e.key.toLowerCase()==='h' && e.ctrlKey){e.preventDefault();spookyToast('🌙 Modo Halloween ativado — você já está nele.');}
+  });
+})();
+
 </script>
 </body>
 </html>
